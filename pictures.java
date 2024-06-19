@@ -11,12 +11,19 @@ public class pictures {
     public static boolean next = false;
     public static boolean real = true;
     public static JFrame myJFrame = new JFrame();
-    public static File dir = new File("pics");
-    public static File[] files = dir.listFiles();
     public static Desktop desktop = Desktop.getDesktop();
     public static Random rand = new Random();
 
     public static void main(String[] args) throws Exception {
+        String data = "";
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = chooser.showOpenDialog(chooser);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            data = chooser.getSelectedFile().getAbsolutePath();
+        }
+        File dir = new File(data);
+        File[] files = dir.listFiles();
         myJFrame.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
