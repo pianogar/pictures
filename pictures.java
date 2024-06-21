@@ -13,6 +13,7 @@ public class pictures {
     public static JFrame myJFrame = new JFrame();
     public static Desktop desktop = Desktop.getDesktop();
     public static Random rand = new Random();
+    public static File file = new File("");
 
     public static void main(String[] args) throws Exception {
         String data = "";
@@ -32,6 +33,8 @@ public class pictures {
                 } else if (keyCode == KeyEvent.VK_LEFT) {
                     next = false;
                     valid = false;
+                } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                    file.delete();
                 }
             }
         });
@@ -51,7 +54,7 @@ public class pictures {
                             if (!tasksList.contains("Photos.exe"))
                                 real = false;
                         }
-                        File file = files[rand.nextInt(files.length)];
+                        file = files[rand.nextInt(files.length)];
                         desktop.open(file);
                     } catch (Exception e) {
                         e.printStackTrace();
