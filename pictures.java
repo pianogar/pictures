@@ -12,8 +12,8 @@ public class pictures {
     public static boolean real = true;
     public static JFrame myJFrame = new JFrame();
     public static Desktop desktop = Desktop.getDesktop();
-    public static Random rand = new Random();
     public static File file = new File("");
+    public static File[] files = new File[0];
 
     public static void main(String[] args) throws Exception {
         String data = "";
@@ -24,7 +24,7 @@ public class pictures {
             data = chooser.getSelectedFile().getAbsolutePath();
         }
         File dir = new File(data);
-        File[] files = dir.listFiles();
+        files = dir.listFiles();
         myJFrame.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
@@ -35,6 +35,7 @@ public class pictures {
                     valid = false;
                 } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     file.delete();
+                    files = dir.listFiles();
                 }
             }
         });
@@ -54,7 +55,7 @@ public class pictures {
                             if (!tasksList.contains("Photos.exe"))
                                 real = false;
                         }
-                        file = files[rand.nextInt(files.length)];
+                        file = files[(int) (files.length * Math.random())];
                         desktop.open(file);
                     } catch (Exception e) {
                         e.printStackTrace();
