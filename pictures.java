@@ -1,6 +1,5 @@
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.Random;
 import java.util.Scanner;
 import java.io.File;
 import java.io.InputStream;
