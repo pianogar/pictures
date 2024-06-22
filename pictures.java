@@ -55,13 +55,17 @@ public class pictures {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 if (keyCode == KeyEvent.VK_LEFT) {
-                    next = false;
+                    next = true;
                     valid = false;
                 } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
                     file.delete();
                     for (int i = 0; i < num; i++) {
                         files[i] = dir[i].listFiles();
                     }
+                } else if (keyCode == KeyEvent.VK_DOWN) {
+                    next = true;
+                } else if (keyCode == KeyEvent.VK_UP) {
+                    next = false;
                 }
             }
         });
@@ -69,23 +73,24 @@ public class pictures {
 
         ActionListener scroll = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                try {
-                    next = true;
-                    real = true;
-                    Runtime.getRuntime().exec("taskkill /IM Photos.exe /F");
-                    while (real) {
-                        ProcessBuilder processBuilder = new ProcessBuilder("tasklist.exe");
-                        Process process = processBuilder.start();
-                        String tasksList = pictures.toString(process.getInputStream());
-                        if (!tasksList.contains("Photos.exe"))
-                            real = false;
+                if (!next) {
+                    try {
+                        real = true;
+                        Runtime.getRuntime().exec("taskkill /IM Photos.exe /F");
+                        while (real) {
+                            ProcessBuilder processBuilder = new ProcessBuilder("tasklist.exe");
+                            Process process = processBuilder.start();
+                            String tasksList = pictures.toString(process.getInputStream());
+                            if (!tasksList.contains("Photos.exe"))
+                                real = false;
+                        }
+                        int rand = (int) (num * Math.random());
+                        file = files[rand][(int) (files[rand].length * Math.random())];
+                        desktop.open(file);
+                        Thread.sleep(sec * 1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    int rand = (int) (num * Math.random());
-                    file = files[rand][(int) (files[rand].length * Math.random())];
-                    desktop.open(file);
-                    Thread.sleep(sec * 1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         };
